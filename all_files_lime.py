@@ -16,7 +16,7 @@ import random
 import numpy as np
 
 def main():
-	new_model = tf.keras.models.load_model("C:\\Users\\Stuart\\Documents\\Image_classification\\saved_model1\\larger_training_set2", compile=True)
+	new_model = tf.keras.models.load_model("<FILEPATH>", compile=True)
 	img_height = 256
 	img_width = 256
 	data_labels = ['ignorable','target']
@@ -24,7 +24,7 @@ def main():
 
 	#Get names of all files that were tested.
 	#2. Load spreadsheet using pandas. Get the extension column and filename and zip them into a dictionary.
-	file_handle = open("C:\\Users\\Stuart\\Documents\\February_2022\\SavedModel1-results.txt", "r")
+	file_handle = open("<FILEPATH>", "r")
 	results = file_handle.readlines()
 	results = results[1:]
 	file_handle.close()
@@ -73,14 +73,14 @@ def main():
 			name = "sample_false_pos"
 		else:
 			name = "sample_false_neg"
-		file_handle = open("C:\\Users\\Stuart\\Documents\\Lime_processed\\" + name + ".csv", "w+")
+		file_handle = open("<OUTPUT PATH>\\" + name + ".csv", "w+")
 		file_handle.write("file,prediction,score,predicted_label\n")
 
 		for pos in samples:
 			file_handle.write(pos)
 			pos = pos.strip(" \n")
 			split = pos.split("\t")
-			img = tf.keras.utils.load_img("C:\\Users\\Stuart\\Documents\\testing\\" + split[0], target_size=(img_height,img_width))
+			img = tf.keras.utils.load_img("<OUTPUT PATH>" + split[0], target_size=(img_height,img_width))
 			lime_img_array = tf.keras.utils.img_to_array(img)
 			predict_img_array = tf.expand_dims(lime_img_array, 0)
 			explainer = lime_image.LimeImageExplainer(random_state=42)
@@ -134,7 +134,7 @@ def main():
 			plt.axis('off')
 			plt.title("Heatmap of fields")
 	
-			fig.savefig("C:\\Users\\Stuart\\Documents\\Lime_processed_reattempted\\" + name + "\\" + split[0].replace('.','_') + ".pdf")
+			fig.savefig("<OUTPUT PATH>\\" + name + "\\" + split[0].replace('.','_') + ".pdf")
 			plt.close()
 	
 	
@@ -145,9 +145,10 @@ def main():
 
 
 	"""
-	img = tf.keras.utils.load_img("C:\\Users\\Stuart\\Documents\\testing\\test_87aab450fb7adeb4fbcb4bab80a8df3ec.jpg", target_size=(img_height,img_width))
+	FOR TESTING PURPOSES ONLY
+	img = tf.keras.utils.load_img("<FILE PATH>", target_size=(img_height,img_width))
 	LIME_img_array = tf.keras.utils.img_to_array(img)
-	img = PIL.Image.open("C:\\Users\\Stuart\\Documents\\testing\\test_87aab450fb7adeb4fbcb4bab80a8df3ec.jpg")
+	img = PIL.Image.open("<FILE PATH>")
 	print(LIME_img_array.shape) #Shape here is (256, 256, 3) -> required for LIME
 	predict_img_array = tf.expand_dims(LIME_img_array, 0)
 	#print(predict_img_array.shape) #Shape is now (1,256,256,3) -> required for model prediction
