@@ -66,9 +66,7 @@ def main():
 	'4107e38537723e6c6522c3fb8e4905ea']
 
 #1. Load json file and create vics media objects for all media.
-	json_file = open("C:\\Users\\Stuart\\OneDrive\\Documents from\
-	 laptop\\Minor Thesis Forensic Files\\Exported_files\\VID_and_\
-	 Image_file_types\\all_media_files_by_signature-raw-text.JSON", "r")
+	json_file = open("FILEPATH", "r")
 	media_files = vics_media.loading_vics_json(json_file)
 	json_file.close()
 	holder = vics_media()
@@ -81,9 +79,7 @@ def main():
 
 #2. Load spreadsheet using pandas. Get the extension column and filename 
 #and zip them into a dictionary.
-	column_data = pd.read_csv("C:\\Users\\Stuart\\OneDrive\\Documents from\
-	 laptop\\Minor Thesis Forensic Files\\Exported_files\\all attachments \
-	 EXIF data\\Autopsy metadata.csv",\
+	column_data = pd.read_csv("FILEPATH",\
 	 usecols =['MD5 Hash','Added_extension'])
 	column_data = column_data.set_index('MD5 Hash')
 	filetype_dict = column_data.to_dict()
@@ -120,8 +116,7 @@ def main():
 				pass
 			else:
 				file_path = \
-				"C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis \
-				Forensic Files\\Exported_files\\VID_and_Image_file_types\\" \
+				"FILEPATH" \
 				+ media.relative_file_path
 				#image = np.array(PIL.Image.open(file_path))
 				image = PIL.Image.open(file_path)
@@ -154,13 +149,11 @@ def main():
 					pass
 			else:	
 				file_path = \
-				"C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis Forensic\
-				 Files\\Exported_files\\VID_and_Image_file_types\\"\
+				"FILEPATH"\
 				+ media.relative_file_path
 				image = PIL.Image.open(file_path)
 				image = image.resize((new_width,new_height))
-				image.save("C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis\
-				 Forensic Files\\Exported_files\\VID_and_Image_file_types\\resized2\\" + str(\
+				image.save("FILEPATH" + str(\
 				 media.relative_file_path), format=media.extension)
 		except OSError:
 			pass
@@ -252,24 +245,21 @@ def main():
 	print(validation)
 
 #All files should now be distributed into one of the three datasets. Write them into files. 
-	training_dataset = open("C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis\
-	 Forensic Files\\datasets\\training.csv","w+")
+	training_dataset = open("FILEPATH","w+")
 	training_dataset.write("Relative Path,md5,extension\n")
 	for tg in training:
 		training_dataset.write(str(tg.relative_file_path) + "," + str(tg.md5) + "," + str(tg.\
 		extension) + "\n")
 	training_dataset.close()
 
-	testing_dataset = open("C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis \
-	Forensic Files\\datasets\\testing.csv","w+")
+	testing_dataset = open("FILEPATH","w+")
 	testing_dataset.write("Relative Path,md5,extension\n")
 	for test in testing:
 		testing_dataset.write(str(test.relative_file_path)  + "," + str(test.md5)  + "," + \
 		str(test.extension) + "\n")
 	testing_dataset.close()
 
-	validation_dataset = open("C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis\
-	 Forensic Files\\datasets\\validation.csv","w+")
+	validation_dataset = open("FILEPATH","w+")
 	validation_dataset.write("Relative Path,md5,extension\n")
 	for vl in validation:
 		validation_dataset.write(str(vl.relative_file_path)  + "," + str(vl.md5)  + "," + str(vl\
@@ -279,10 +269,8 @@ def main():
 
 # Move files into folder for processing (Training Data).
 	"""
-	processed_files_path = "C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis\
-	 Forensic Files\\Exported_files\\VID_and_Image_file_types\\resized"
-	training_handle = open("C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis\
-	 Forensic Files\\datasets\\training.csv","r")
+	processed_files_path = "FILEPATH"
+	training_handle = open("FILEPATH","r")
 	training_data = training_handle.readlines()
 	training_handle.close()
 	training_data = training_data[1:]
@@ -304,10 +292,8 @@ def main():
 			if target_hash == vics.md5:
 				img_file = vics
 				cleaned = img_file.relative_file_path.replace('\\\\','\\',1)
-				img_file_path = "\"C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis\
-				 Forensic Files\\Exported_files\\VID_and_Image_file_types\\resized2\\" + cleaned
-				command = "copy " + img_file_path + "\" \"C:\\Users\\Stuart\\Documents\\training\\\
-				target\\" + target_hash + "." + vics.extension + "\""
+				img_file_path = "\"FILEPATH" + cleaned
+				command = "copy " + img_file_path + "\" \"FILEPATH" + target_hash + "." + vics.extension + "\""
 				print(command)
 				subprocess.call(command,shell=True)
 
@@ -316,25 +302,19 @@ def main():
 		if vics.md5 in training_hashes:
 			img_file = vics
 			cleaned = img_file.relative_file_path.replace('\\\\','\\',1)
-			img_file_path = "\"C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis\
-			 Forensic Files\\Exported_files\\VID_and_Image_file_types\\resized2\\" + img_file.\
+			img_file_path = "\"FILEPATH" + img_file.\
 			 relative_file_path
-			command = "copy " + img_file_path + "\" \"C:\\Users\\Stuart\\Documents\\training\\\
-			ignorable\\" + vics.md5 + "." + vics.extension + "\""
+			command = "copy " + img_file_path + "\" \"FILEPATH" + vics.md5 + "." + vics.extension + "\""
 			print(command)
 			subprocess.call(command,shell=True)
 
 	"""
-	#"copy C:\\Users\\stewi\\Documents\\Minor Thesis Forensic Files\\Exported_files\\VID_and_\
-	#Image_file_types\\resized2"
 	
 #Move files into folder for processing (Validation Data)
 
 	"""	
-	processed_files_path = "C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis Forensic \
-	Files\\Exported_files\\VID_and_Image_file_types\\resized"
-	validation_handle = open("C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis Forensic \
-	Files\\datasets\\validation.csv","r")
+	processed_files_path = "FILEPATH"
+	validation_handle = open("FILEPATH","r")
 	validation_data = validation_handle.readlines()
 	validation_handle.close()
 	validation_data = validation_data[1:]
@@ -356,10 +336,8 @@ def main():
 			if target_hash == vics.md5:
 				img_file = vics
 				cleaned = img_file.relative_file_path.replace('\\\\','\\',1)
-				img_file_path = "\"C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis \
-				Forensic Files\\Exported_files\\VID_and_Image_file_types\\resized2\\" + cleaned
-				command = "copy " + img_file_path + "\" \"C:\\Users\\Stuart\\Documents\\validation\\\
-				target\\" + target_hash + "." + vics.extension + "\""
+				img_file_path = "\"FILEPATH" + cleaned
+				command = "copy " + img_file_path + "\" \"FILEPATH" + target_hash + "." + vics.extension + "\""
 				print(command)
 				subprocess.call(command,shell=True)
 
@@ -368,8 +346,7 @@ def main():
 		if vics.md5 in validation_hashes:
 			img_file = vics
 			cleaned = img_file.relative_file_path.replace('\\\\','\\',1)
-			img_file_path = "\"C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis Forensic\
-			 Files\\Exported_files\\VID_and_Image_file_types\\resized2\\" + img_file.relative_file_path
+			img_file_path = "\"FILEPATH" + img_file.relative_file_path
 			command = "copy " + img_file_path + "\" \"C:\\Users\\Stuart\\Documents\\validation\\ignorable\
 			\\" + vics.md5 + "." + vics.extension + "\""
 			print(command)
@@ -378,10 +355,8 @@ def main():
 
 #Move files into folder for processing (Testing Data)
 	"""
-	processed_files_path = "C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis Forensic\
-	 Files\\Exported_files\\VID_and_Image_file_types\\resized"
-	testing_handle = open("C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis Forensic\
-	 Files\\datasets\\testing.csv","r")
+	processed_files_path = "FILEPATH"
+	testing_handle = open("FILEPATH","r")
 	testing_data = testing_handle.readlines()
 	testing_handle.close()
 	testing_data = testing_data[1:]
@@ -403,9 +378,8 @@ def main():
 			if target_hash == vics.md5:
 				img_file = vics
 				cleaned = img_file.relative_file_path.replace('\\\\','\\',1)
-				img_file_path = "\"C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis\
-				 Forensic Files\\Exported_files\\VID_and_Image_file_types\\resized2\\" + cleaned
-				command = "copy " + img_file_path + "\" \"C:\\Users\\Stuart\\Documents\\testing\\"\
+				img_file_path = "\"FILEPATH" + cleaned
+				command = "copy " + img_file_path + "\" \"FILEPATH"\
 				 + target_hash + "." + vics.extension + "\""
 				print(command)
 				subprocess.call(command,shell=True)
@@ -415,10 +389,9 @@ def main():
 		if vics.md5 in testing_hashes:
 			img_file = vics
 			cleaned = img_file.relative_file_path.replace('\\\\','\\',1)
-			img_file_path = "\"C:\\Users\\Stuart\\OneDrive\\Documents from laptop\\Minor Thesis \
-			Forensic Files\\Exported_files\\VID_and_Image_file_types\\resized2\\" + img_file.\
+			img_file_path = "\"FILEPATH" + img_file.\
 			relative_file_path
-			command = "copy " + img_file_path + "\" \"C:\\Users\\Stuart\\Documents\\testing\\" +\
+			command = "copy " + img_file_path + "\" \"FILEPATH" +\
 			 vics.md5 + "." + vics.extension + "\""
 			print(command)
 			subprocess.call(command,shell=True)
@@ -431,13 +404,13 @@ def main():
 	img_width = 256
 	batch_size = 32
 
-	train_ds = tf.keras.utils.image_dataset_from_directory("C:\\Users\\Stuart\\Documents\\training\\all", \
+	train_ds = tf.keras.utils.image_dataset_from_directory("filepath", \
  	labels = "inferred", \
  	#subset="training", \
 	image_size=(img_height, img_width), \
 	batch_size=batch_size)
 
-	val_ds = tf.keras.utils.image_dataset_from_directory("C:\\Users\\Stuart\\Documents\\validation", \
+	val_ds = tf.keras.utils.image_dataset_from_directory("filepath", \
  	labels = "inferred", \
  	#subset="validation", \
 	image_size=(img_height, img_width), \
@@ -501,7 +474,7 @@ def main():
 #Train the model
 	epochs = 10
 	history = model.fit(train_ds,validation_data=val_ds, epochs=epochs)
-	model.save("C:\\Users\\Stuart\\Documents\\Image_classification\\saved_model1\\larger_training_set2")
+	model.save("filepath")
 
 
 #output a figure of accurance and performance for training and validation. 
